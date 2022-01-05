@@ -15,7 +15,7 @@ class Countdown extends StatefulWidget {
   final Duration duration;
   final Duration interval;
   final void Function()? onFinish;
-  final Widget Function(BuildContext context, Duration? remaining) builder;
+final Widget Function(BuildContext context, Duration? remaining) builder;
   @override
   _CountdownState createState() => _CountdownState();
 }
@@ -75,7 +75,7 @@ class CountdownFormatted extends StatelessWidget {
   /// An function to format the remaining time
   final String Function(Duration)? formatter;
 
-  final Widget Function(BuildContext context, String remaining) builder;
+  final Widget Function(BuildContext context, Duration? remaining) builder;
 
   Function(Duration)? _formatter() {
     if (formatter != null) return formatter;
@@ -91,8 +91,8 @@ class CountdownFormatted extends StatelessWidget {
       interval: interval,
       onFinish: onFinish,
       duration: duration,
-      builder: (BuildContext ctx, Duration remaining) {
-        return builder(ctx, _formatter()!(remaining));
+      builder: (BuildContext ctx, Duration? remaining) {
+        return builder(ctx, _formatter()!(remaining!));
       },
     );
   }
