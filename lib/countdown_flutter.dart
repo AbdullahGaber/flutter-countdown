@@ -5,24 +5,24 @@ import 'package:flutter/material.dart';
 
 class Countdown extends StatefulWidget {
   const Countdown({
-    Key key,
-    @required this.duration,
-    @required this.builder,
+    Key? key,
+    required this.duration,
+    required this.builder,
     this.onFinish,
     this.interval = const Duration(seconds: 1),
   }) : super(key: key);
 
   final Duration duration;
   final Duration interval;
-  final void Function() onFinish;
-  final Widget Function(BuildContext context, Duration remaining) builder;
+  final void Function()? onFinish;
+  final Widget Function(BuildContext context, Duration? remaining) builder;
   @override
   _CountdownState createState() => _CountdownState();
 }
 
 class _CountdownState extends State<Countdown> {
-  Timer _timer;
-  Duration _duration;
+  Timer? _timer;
+  Duration? _duration;
   @override
   void initState() {
     _duration = widget.duration;
@@ -43,11 +43,11 @@ class _CountdownState extends State<Countdown> {
 
   void timerCallback(Timer timer) {
     setState(() {
-      if (_duration.inSeconds == 0) {
+      if (_duration!.inSeconds == 0) {
         timer.cancel();
-        if (widget.onFinish != null) widget.onFinish();
+        if (widget.onFinish != null) widget.onFinish!();
       } else {
-        _duration = Duration(seconds: _duration.inSeconds - 1);
+        _duration = Duration(seconds: _duration!.inSeconds - 1);
       }
     });
   }
@@ -60,9 +60,9 @@ class _CountdownState extends State<Countdown> {
 
 class CountdownFormatted extends StatelessWidget {
   const CountdownFormatted({
-    Key key,
-    @required this.duration,
-    @required this.builder,
+    Key? key,
+    required this.duration,
+    required this.builder,
     this.onFinish,
     this.interval = const Duration(seconds: 1),
     this.formatter,
@@ -70,14 +70,14 @@ class CountdownFormatted extends StatelessWidget {
 
   final Duration duration;
   final Duration interval;
-  final void Function() onFinish;
+  final void Function()? onFinish;
 
   /// An function to format the remaining time
-  final String Function(Duration) formatter;
+  final String Function(Duration)? formatter;
 
   final Widget Function(BuildContext context, String remaining) builder;
 
-  Function(Duration) _formatter() {
+  Function(Duration)? _formatter() {
     if (formatter != null) return formatter;
     if (duration.inHours >= 1) return formatByHours;
     if (duration.inMinutes >= 1) return formatByMinutes;
@@ -92,7 +92,7 @@ class CountdownFormatted extends StatelessWidget {
       onFinish: onFinish,
       duration: duration,
       builder: (BuildContext ctx, Duration remaining) {
-        return builder(ctx, _formatter()(remaining));
+        return builder(ctx, _formatter()!(remaining));
       },
     );
   }
